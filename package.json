@@ -2,11 +2,11 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/skeleton.css --postcss --watch",
+        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-imagen-file.css --postcss --watch",
         "dev:scripts": "node bin/build.js --dev",
-        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/skeleton.css --postcss --minify && npm run purge",
+        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-imagen-file.css --postcss --minify && npm run purge",
         "build:scripts": "node bin/build.js",
-        "purge": "filament-purge -i resources/dist/skeleton.css -o resources/dist/skeleton.css -v 3.x",
+        "purge": "filament-purge -i resources/dist/filament-imagen-file.css -o resources/dist/filament-imagen-file.css -v 3.x",
         "dev": "npm-run-all --parallel dev:*",
         "build": "npm-run-all build:*"
     },
@@ -22,5 +22,18 @@
         "prettier": "^2.7.1",
         "prettier-plugin-tailwindcss": "^0.1.13",
         "tailwindcss": "^3.3.3"
+    },
+    "dependencies": {
+        "cropperjs": "1.5.13",
+        "filepond": "4.31.1",
+        "filepond-plugin-file-validate-size": "2.2.4",
+        "filepond-plugin-file-validate-type": "1.2.6",
+        "filepond-plugin-image-crop": "2.0.6",
+        "filepond-plugin-image-edit": "1.6.3",
+        "filepond-plugin-image-exif-orientation": "^1.0.11",
+        "filepond-plugin-image-preview": "4.6.7",
+        "filepond-plugin-image-resize": "2.0.10",
+        "filepond-plugin-image-transform": "3.8.6",
+        "filepond-plugin-media-preview": "1.0.9"
     }
 }
