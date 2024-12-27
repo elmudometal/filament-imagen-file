@@ -29,7 +29,7 @@
             @else
                 ax-load
             @endif
-            ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('imagen-file', 'elmudo-dev/filament-imagen-file') }}"
+            ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-imagen-file', 'elmudodev/filament-imagen-file') }}"
             x-data="fileUploadFormComponent({
                     acceptedFileTypes: @js($getAcceptedFileTypes()),
                     imageEditorEmptyFillColor: @js($getImageEditorEmptyFillColor()),
@@ -91,6 +91,15 @@
                             file,
                             () => {
                                 success(fileKey)
+                                const listItem = Array.from(document.querySelectorAll('li.filepond--item'))
+                                    .find(li => li.querySelector('legend')?.textContent.trim() === file.name);
+                                if (listItem) {
+                                    const input = listItem.querySelector('input.filepond--image-caption-input');
+                                    if (input) {
+                                        input.setAttribute('wire:model.blur', `data.captions.${fileKey}.caption`);
+                                        input.removeAttribute('disabled');
+                                    }
+                                }
                             },
                             error,
                             (progressEvent) => {

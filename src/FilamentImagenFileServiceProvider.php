@@ -100,7 +100,7 @@ class FilamentImagenFileServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('filament-imagen-file', __DIR__ . '/../resources/dist/components/filament-imagen-file.js'),
+            AlpineComponent::make('filament-imagen-file', __DIR__ . '/../resources/dist/filament-imagen-file.js'),
             Css::make('filament-imagen-file-styles', __DIR__ . '/../resources/dist/filament-imagen-file.css'),
             Js::make('filament-imagen-file-scripts', __DIR__ . '/../resources/dist/filament-imagen-file.js'),
         ];
