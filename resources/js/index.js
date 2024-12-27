@@ -9,6 +9,8 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginImageResize from 'filepond-plugin-image-resize'
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
 import FilePondPluginMediaPreview from 'filepond-plugin-media-preview'
+import FilePondPluginImageCaption from './filepond-plugin-image-caption.js';
+import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata';
 
 FilePond.registerPlugin(FilePondPluginFileValidateSize)
 FilePond.registerPlugin(FilePondPluginFileValidateType)
@@ -19,6 +21,8 @@ FilePond.registerPlugin(FilePondPluginImagePreview)
 FilePond.registerPlugin(FilePondPluginImageResize)
 FilePond.registerPlugin(FilePondPluginImageTransform)
 FilePond.registerPlugin(FilePondPluginMediaPreview)
+FilePond.registerPlugin(FilePondPluginImageCaption)
+FilePond.registerPlugin(FilePondPluginFileMetadata);
 
 window.FilePond = FilePond
 
@@ -96,6 +100,13 @@ export default function fileUploadFormComponent({
       FilePond.setOptions(locales[locale] ?? locales['en'])
 
       this.pond = FilePond.create(this.$refs.input, {
+        // Caption (custom plugin)
+        imageCaptionPlaceholder: 'Description...',
+        imageCaptionMaxLength: 255,
+        fileMetadataObject: {
+          title: 'Un título personalizado',
+          description: 'Esta es una descripción personalizada',
+        },
         acceptedFileTypes,
         allowImageExifOrientation: shouldOrientImageFromExif,
         allowPaste: false,
@@ -327,7 +338,6 @@ export default function fileUploadFormComponent({
       const uploadedFiles = await getUploadedFilesUsing()
 
       this.fileKeyIndex = uploadedFiles ?? {}
-
       this.uploadedFileIndex = Object.entries(this.fileKeyIndex)
         .filter(([key, value]) => value?.url)
         .reduce((obj, [key, value]) => {
@@ -341,7 +351,6 @@ export default function fileUploadFormComponent({
       await this.getUploadedFiles()
 
       let files = []
-
       for (const uploadedFile of Object.values(this.fileKeyIndex)) {
         if (!uploadedFile) {
           continue
@@ -351,6 +360,10 @@ export default function fileUploadFormComponent({
           source: uploadedFile.url,
           options: {
             type: 'local',
+            metadata: {
+              caption: uploadedFile.name,
+              uuid: uploadedFile.uuid,
+            },
             ...(!uploadedFile.type ||
             (isPreviewable &&
               (/^audio/.test(uploadedFile.type) ||
